@@ -94,23 +94,11 @@
   </ol>
 </nav>
 
-<section class="calc" aria-label="Mortgage EMI calculator">
-  <h2>Try it: mortgage EMI calculator</h2>
-  <p>Enter a loan amount, an annual interest rate and a term to see the monthly payment. The default figures show the standard worked example used on this page: AED 1,000,000 at 4.75% over 25 years.</p>
-  <label for="loan">Loan amount (AED)</label>
-  <input id="loan" type="number" value="1000000" min="0" step="1000">
-  <label for="rate">Annual interest rate (%)</label>
-  <input id="rate" type="number" value="4.75" min="0" step="0.05">
-  <label for="years">Term (years, maximum 25 in the UAE)</label>
-  <input id="years" type="number" value="25" min="1" max="25" step="1">
-  <button type="button" onclick="calcEmi()">Calculate EMI</button>
-  <div class="result" id="result" aria-live="polite">
-    <div>Monthly payment (EMI)</div>
-    <div class="big">AED 5,701.17</div>
-    <div id="detail">Total interest AED 710,351.00 · Total paid AED 1,710,351.00 over 300 payments</div>
-  </div>
-  <p style="margin-top:12px;color:var(--muted);font-size:14.5px;">Illustration only, using a fixed rate for the full term. Real UAE mortgages are usually fixed for a short period and then move with EIBOR plus a bank margin.</p>
-</section>
+<div style="background:#eef5f0;border:1px solid #dde5dd;border-left:5px solid #0b6b3a;border-radius:8px;padding:22px 20px;margin:22px 0;text-align:center;">
+  <h2 style="border:none;padding:0;margin:0 0 10px;">Try it: the mortgage EMI calculator on UAE Calculators</h2>
+  <p style="margin:0;">See your own monthly payment, total interest and repayment total with the free mortgage tool:</p>
+  <p style="margin:16px 0 2px;"><a href="https://uaecalculators.ae/mortgage-emi-calculator/" style="display:inline-block;background:#0b6b3a;color:#ffffff;font-weight:700;padding:14px 28px;border-radius:8px;font-size:18px;text-decoration:none;">Calculate Your Mortgage EMI</a></p>
+</div>
 
 <h2 id="affordability">How much mortgage can you borrow in the UAE?</h2>
 <p>Banks in the UAE do not decide your loan size by asking what you feel you can afford. They apply Central Bank rules, and three limits usually decide the answer: the debt burden ratio, the income multiple and the loan-to-value cap for the property.</p>
@@ -133,7 +121,7 @@
 <h2 id="emi">How is a mortgage EMI calculated?</h2>
 <p>EMI stands for equated monthly instalment. Every payment is the same amount, but the split inside it changes: early payments are mostly interest, while later payments are mostly principal. The formula spreads the loan evenly across the term at the agreed rate.</p>
 <div class="formula">EMI = P × r × (1 + r)<sup>n</sup> ÷ ((1 + r)<sup>n</sup> − 1), where P is the loan amount, r is the monthly rate (annual rate ÷ 100 ÷ 12) and n is the number of monthly payments.</div>
-<p>Worked example: AED 1,000,000 at 4.75% over 25 years. The monthly rate is 4.75 ÷ 100 ÷ 12 = 0.00395833, and n is 300. The formula gives an EMI of <strong>AED 5,701.17</strong>, total interest of AED 710,351.00 and a total paid of AED 1,710,351.00. You can reproduce this in the calculator above, and it is the anchor figure used to check the mortgage tools on the main site.</p>
+<p>Worked example: AED 1,000,000 at 4.75% over 25 years. The monthly rate is 4.75 ÷ 100 ÷ 12 = 0.00395833, and n is 300. The formula gives an EMI of <strong>AED 5,701.17</strong>, total interest of AED 710,351.00 and a total paid of AED 1,710,351.00. You can reproduce this in the mortgage EMI calculator on UAE Calculators, via the button above, and it is the anchor figure used to check the mortgage tools on the main site.</p>
 <h3>What happens if you settle the mortgage early?</h3>
 <p>The Central Bank caps the early settlement fee at the lower of 1% of the outstanding balance or AED 10,000, plus 5% VAT. On a balance of AED 600,000, 1% is AED 6,000, so the fee is AED 6,000 plus AED 300 VAT. On a balance of AED 1,500,000, 1% would be AED 15,000, so the AED 10,000 cap applies instead, plus AED 500 VAT. Settling early still usually saves far more in interest than the fee costs, which is why a break-even comparison matters before switching banks.</p>
 
@@ -218,36 +206,5 @@
 
 </div>
 
-<script>
-function fmt(n){
-  return n.toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2});
-}
-function calcEmi(){
-  var P = parseFloat(document.getElementById("loan").value);
-  var annual = parseFloat(document.getElementById("rate").value);
-  var years = parseFloat(document.getElementById("years").value);
-  var box = document.getElementById("detail");
-  var big = document.querySelector("#result .big");
-  if (isNaN(P)) { big.textContent = "Enter a loan amount"; box.textContent = ""; return; }
-  if (isNaN(annual)) { big.textContent = "Enter an interest rate"; box.textContent = ""; return; }
-  if (isNaN(years)) { big.textContent = "Enter a term in years"; box.textContent = ""; return; }
-  if (years > 25) { years = 25; document.getElementById("years").value = 25; }
-  var r = annual / 100 / 12;
-  var n = Math.round(years * 12);
-  var emi = 0;
-  if (r === 0) {
-    emi = P / n;
-  } else {
-    var f = Math.pow(1 + r, n);
-    emi = P * r * f / (f - 1);
-  }
-  emi = Math.round(emi * 100) / 100;
-  var total = emi * n;
-  var interest = total - P;
-  big.textContent = "AED " + fmt(emi);
-  box.textContent = "Total interest AED " + fmt(interest) + " · Total paid AED " + fmt(total) + " over " + n + " payments";
-}
-calcEmi();
-</script>
 </body>
 </html>
